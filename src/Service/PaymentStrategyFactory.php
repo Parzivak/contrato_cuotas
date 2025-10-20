@@ -2,17 +2,20 @@
 namespace App\Service;
 
 use App\Service\PaymentStrategy\PaymentStrategyInterface;
+use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 
 class PaymentStrategyFactory
 {
     /** @var PaymentStrategyInterface[] */
     private array $strategies = [];
 
-    // Inyección automática de todas las estrategias gracias al tagging
-    public function __construct(iterable $strategies)
-    {
+    public function __construct(
+        #[TaggedIterator('app.payment_strategy')] iterable $strategies
+    ) {
         foreach ($strategies as $strategy) {
-            $this->strategies[$strategy->getIdentifier()] = $strategy;
+            if ($strategy instanceof PaymentStrategyInterface) {
+                $this->strategies[$strategy->getIdentifier()] = $strategy;
+            }
         }
     }
 

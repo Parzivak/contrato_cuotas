@@ -1,5 +1,5 @@
 <?php
-namespace App\Service\PaymenStrategy;
+namespace App\Service;
 
 use App\DTO\ContractRequest;
 use App\DTO\InstallmentDetailResponse;
@@ -8,12 +8,11 @@ use App\Entity\Contract;
 use App\Repository\ContractRepository;
 use App\Service\PaymentStrategy;
 
-// O EntityManagerInterface
 
 class ContractService
 {
     public function __construct(
-        private readonly ContractRepository $contractRepository, // Inyecta el repositorio
+        private readonly ContractRepository $contractRepository,
         private readonly PaymentStrategyFactory $strategyFactory
     ) {}
 
@@ -22,10 +21,10 @@ class ContractService
         $contract = new Contract();
         $contract->setContractNumber($request->contractNumber);
         $contract->setContractDate($request->contractDate);
-        $contract->setTotalValue((string)$request->totalValue); // Doctrine maneja string para decimal
+        $contract->setTotalValue((string)$request->totalValue);
         $contract->setPaymentMethod($request->paymentMethod);
 
-        $this->contractRepository->save($contract, true); // Usamos el repositorio
+        $this->contractRepository->save($contract, true);
 
         return $contract;
     }
@@ -34,7 +33,7 @@ class ContractService
     {
         $contract = $this->contractRepository->find($contractId);
         if (!$contract) {
-            return null; // El controlador manejará el 404
+            return null;
         }
 
         if ($numberOfMonths <= 0) {

@@ -3,8 +3,8 @@ namespace App\Service\PaymentStrategy;
 
 class PayPalStrategy implements PaymentStrategyInterface
 {
-    private const INTEREST_RATE = 0.01; // 1%
-    private const FEE_RATE = 0.02;      // 2%
+    private const INTEREST_RATE = 0.01;
+    private const FEE_RATE = 0.02;
 
     public function calculateInstallment(float $baseAmount): array
     {
