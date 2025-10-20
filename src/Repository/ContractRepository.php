@@ -16,11 +16,11 @@ class ContractRepository extends ServiceEntityRepository
         parent::__construct($registry, Contract::class);
     }
 
-  /**
+    /**
      * @return Contract[] Returns an array of Contract objects
-    */
+     */
     public function findByExampleField($value): array
-   {
+    {
         return $this->createQueryBuilder('c')
            ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
@@ -28,8 +28,8 @@ class ContractRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-       ;
-   }
+        ;
+    }
 
     public function save(Contract $entity, bool $flush = false): void
     {
@@ -38,13 +38,14 @@ class ContractRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-public function findOneBySomeField($value): ?Contract
-   {
-       return $this->createQueryBuilder('c')
-           ->andWhere('c.exampleField = :val')
-           ->setParameter('val', $value)
-           ->getQuery()
-         ->getOneOrNullResult()
+
+    public function findOneBySomeField($value): ?Contract
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+          ->getOneOrNullResult()
         ;
     }
 }

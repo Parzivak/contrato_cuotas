@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service\PaymentStrategy;
 
 class PayPalStrategy implements PaymentStrategyInterface

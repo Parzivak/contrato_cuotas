@@ -1,5 +1,7 @@
 <?php
+
 namespace App\DTO;
+
 class InstallmentDetailResponse
 {
     public function __construct(
@@ -8,6 +10,7 @@ class InstallmentDetailResponse
         public readonly float $baseAmount,
         public readonly float $interest,
         public readonly float $fee,
-        public readonly float $totalAmount
-    ) {}
+        public readonly float $totalAmount,
+    ) {
+    }
 }

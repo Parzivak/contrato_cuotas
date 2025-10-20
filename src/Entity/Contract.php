@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ContractRepository;
+use App\ValueObject\Money;
+use App\ValueObject\PaymentMethod;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,17 +16,17 @@ class Contract
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 50, unique: true)]
     private ?string $contractNumber = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $contractDate = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2)]
-    private ?string $totalValue = null;
+    #[ORM\Embedded(class: Money::class)]
+    private ?Money $totalValue = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $paymentMethod = null;
+    #[ORM\Embedded(class: PaymentMethod::class)]
+    private ?PaymentMethod $paymentMethod = null;
 
     public function getId(): ?int
     {
@@ -36,7 +38,7 @@ class Contract
         return $this->contractNumber;
     }
 
-    public function setContractNumber(?string $contractNumber): static
+    public function setContractNumber(string $contractNumber): static
     {
         $this->contractNumber = $contractNumber;
 
@@ -55,26 +57,50 @@ class Contract
         return $this;
     }
 
-    public function getTotalValue(): ?string
+    public function getTotalValue(): ?Money
     {
         return $this->totalValue;
     }
 
-    public function setTotalValue(string $totalValue): static
+    public function setTotalValue(Money $totalValue): static
     {
         $this->totalValue = $totalValue;
 
         return $this;
     }
 
-    public function getPaymentMethod(): ?string
+    public function getPaymentMethod(): ?PaymentMethod
     {
         return $this->paymentMethod;
     }
 
-    public function setPaymentMethod(string $paymentMethod): static
+    public function setPaymentMethod(PaymentMethod $paymentMethod): static
     {
         $this->paymentMethod = $paymentMethod;
+
+        return $this;
+    }
+
+    public function getTotalValueAmount(): float
+    {
+        return $this->totalValue?->getAmount() ?? 0.0;
+    }
+
+    public function getPaymentMethodValue(): string
+    {
+        return $this->paymentMethod?->getValue() ?? '';
+    }
+
+    public function setTotalValueFromFloat(float $amount): static
+    {
+        $this->totalValue = new Money($amount);
+
+        return $this;
+    }
+
+    public function setPaymentMethodFromString(string $method): static
+    {
+        $this->paymentMethod = new PaymentMethod($method);
 
         return $this;
     }

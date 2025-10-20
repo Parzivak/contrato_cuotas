@@ -24,6 +24,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            ValueObjects:
+                type: attribute # O 'annotation'
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/ValueObject' # Directorio de VOs
+                prefix: 'App\ValueObject'                  # Namespace de VOs
+                alias: ValueObject
         controller_resolver:
             auto_mapping: false
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\DTO;
+
 class ProjectionResponse
 {
     /** @var InstallmentDetailResponse[] */

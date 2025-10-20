@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use App\Service\PaymentStrategy\PaymentStrategyInterface;
@@ -10,7 +11,7 @@ class PaymentStrategyFactory
     private array $strategies = [];
 
     public function __construct(
-        #[TaggedIterator('app.payment_strategy')] iterable $strategies
+        #[TaggedIterator('app.payment_strategy')] iterable $strategies,
     ) {
         foreach ($strategies as $strategy) {
             if ($strategy instanceof PaymentStrategyInterface) {
@@ -24,6 +25,7 @@ class PaymentStrategyFactory
         if (!isset($this->strategies[$identifier])) {
             throw new \InvalidArgumentException("Estrategia de pago desconocida: {$identifier}");
         }
+
         return $this->strategies[$identifier];
     }
 }
